@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router";
+import { Routes, Route, useNavigate } from "react-router";
 import { useContext, useState, useEffect } from "react";
 
 import { UserContext } from "./contexts/UserContext.jsx";
@@ -10,21 +10,32 @@ import SignInForm from "./components/SignInForm/SignInForm.jsx";
 import Dashboard from "./components/Dashboard/Dashboard.jsx";
 import Landing from "./components/Landing/Landing.jsx";
 import HootList from "./pages/HootList/HootList.jsx";
+import HootDetails from "./pages/HootDetails/HootDetails.jsx";
+import HootForm from "./pages/HootForm/HootForm.jsx";
 
 const App = () => {
   const [hoots, setHoots] = useState([]);
   const { user } = useContext(UserContext);
 
-    useEffect(() => {
+  const navigate = useNavigate();
+
+  const handleAddHoot = async (hootFormData) => {
+    const newHoot = await hootService.create(hootFormData);
+    setHoots([newHoot, ...hoots]);
+    navigate("/hoots");
+  };
+
+
+  useEffect(() => {
     const fetchAllHoots = async () => {
       const hootsData = await hootService.index();
-  
+      setHoots(hootsData);
       // console log to verify
-      console.log('hootsData:', hootsData);
+      console.log("hootsData:", hootsData);
     };
     if (user) fetchAllHoots();
   }, [user]);
-  
+
   // return statement code here
 
   return (
@@ -36,6 +47,11 @@ const App = () => {
           <>
             {/* Protected routes (available only to signed-in users) */}
             <Route path="/hoots" element={<HootList hoots={hoots} />} />
+            <Route path="/hoots/:hootId" element={<HootDetails />} />
+            <Route
+              path="/hoots/new"
+              element={<HootForm handleAddHoot={handleAddHoot} />}
+            />
           </>
         ) : (
           <>
