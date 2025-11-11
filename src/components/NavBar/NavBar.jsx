@@ -26,23 +26,26 @@ const NavBar = () => {
           <li>Welcome, {user.username}</li>
           <li>
             <Link to="/" onClick={handleSignOut}>
-              Sign Out
+              LOGOUT
             </Link>
           </li>
           <li>
-            <Link to="/">Dashboard</Link>
+            <Link to="/">HOME</Link>
+          </li>
+          <li>
+            <Link to="/hoots">HOOTS</Link>
           </li>
         </ul>
       ) : (
         <ul>
           <li>
-            <Link to="/sign-up">Sign Up</Link>
+            <Link to="/sign-up">SIGN UP</Link>
           </li>
           <li>
-            <Link to="/sign-in">Sign In</Link>
+            <Link to="/sign-in">SIGN IN</Link>
           </li>
           <li>
-            <Link to="/">Home</Link>
+            <Link to="/">HOME</Link>
           </li>
         </ul>
       )}
